@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 
 function selectInputText(element) {
     element.setSelectionRange(0, element.value.length);
@@ -7,21 +8,21 @@ function selectInputText(element) {
 
 export default class InlineEdit extends React.Component {
     static propTypes = {
-        text: React.PropTypes.string.isRequired,
-        paramName: React.PropTypes.string.isRequired,
-        change: React.PropTypes.func.isRequired,
-        placeholder: React.PropTypes.string,
-        className: React.PropTypes.string,
-        activeClassName: React.PropTypes.string,
-        minLength: React.PropTypes.number,
-        maxLength: React.PropTypes.number,
-        validate: React.PropTypes.func,
-        style: React.PropTypes.object,
-        editingElement: React.PropTypes.string,
-        staticElement: React.PropTypes.string,
-        tabIndex: React.PropTypes.number,
-        isDisabled: React.PropTypes.bool,
-        editing: React.PropTypes.bool
+        text: PropTypes.string.isRequired,
+        paramName: PropTypes.string.isRequired,
+        change: PropTypes.func.isRequired,
+        placeholder: PropTypes.string,
+        className: PropTypes.string,
+        activeClassName: PropTypes.string,
+        minLength: PropTypes.number,
+        maxLength: PropTypes.number,
+        validate: PropTypes.func,
+        style: PropTypes.object,
+        editingElement: PropTypes.string,
+        staticElement: PropTypes.string,
+        tabIndex: PropTypes.number,
+        isDisabled: PropTypes.bool,
+        editing: PropTypes.bool
     };
 
     static defaultProps = {
@@ -78,11 +79,11 @@ export default class InlineEdit extends React.Component {
         if (this.props.stopPropagation) {
             e.stopPropagation()
         }
-        this.setState({editing: true, text: this.props.text});
+        this.setState({ editing: true, text: this.props.text });
     };
 
     finishEditing = () => {
-        if (this.isInputValid(this.state.text) && this.props.text != this.state.text){
+        if (this.isInputValid(this.state.text) && this.props.text != this.state.text) {
             this.commitEditing();
         } else if (this.props.text === this.state.text || !this.isInputValid(this.state.text)) {
             this.cancelEditing();
@@ -90,11 +91,11 @@ export default class InlineEdit extends React.Component {
     };
 
     cancelEditing = () => {
-        this.setState({editing: false, text: this.props.text});
+        this.setState({ editing: false, text: this.props.text });
     };
 
     commitEditing = () => {
-        this.setState({editing: false, text: this.state.text});
+        this.setState({ editing: false, text: this.state.text });
         let newProp = {};
         newProp[this.props.paramName] = this.state.text;
         this.props.change(newProp);
@@ -126,12 +127,12 @@ export default class InlineEdit extends React.Component {
 
     render() {
         if (this.props.isDisabled) {
-          const Element = this.props.element || this.props.staticElement;
-          return <Element
-              className={this.props.className}
-              style={this.props.style} >
-              {this.state.text || this.props.placeholder}
-          </Element>;
+            const Element = this.props.element || this.props.staticElement;
+            return <Element
+                className={this.props.className}
+                style={this.props.style} >
+                {this.state.text || this.props.placeholder}
+            </Element>;
         } else if (!this.state.editing) {
             const Element = this.props.element || this.props.staticElement;
             return <Element
